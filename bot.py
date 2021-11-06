@@ -128,8 +128,7 @@ slash = SlashCommand(bot, sync_commands=True) # Declares slash commands through 
 async def on_ready():
     print('We have logged in as {0.user}'.format(bot))
 
-@slash.slash(name = "YMCA", description = "Start blaring YMCA in the vc you are in!", \
-    guild_ids=config["GUILD_IDS"])
+@slash.slash(name = "YMCA", description = "Start blaring YMCA in the vc you are in!")
 async def playYMCA(ctx):
     notInVC = "I mean, this won't be *as* good... uh... \n \
             \U0001F3B6 YYY M C A, it's fun to stay at the YYY M C A-A \U0001F3B6"
@@ -139,8 +138,8 @@ async def playYMCA(ctx):
     await playAudio(audio, connected, notInVC, couldNotConnect, ctx)
     
 
-@slash.slash(name="bonk", description="Send someone to horny jail", \
-    guild_ids=config["GUILD_IDS"], options=[create_option("bonked", "Who you want to send to horny jail", 6, False),\
+@slash.slash(name="bonk", description="Send someone to horny jail",\
+    options=[create_option("bonked", "Who you want to send to horny jail", 6, False),\
     create_option("reason", "Why are you bonking?", 3, False)])
 async def bonk(ctx: SlashContext, bonked: discord.Member = None, reason: str = None):
     connected = random.choice(ATTR_FORMS["bonks"]["responses"])
@@ -168,7 +167,7 @@ async def bonk(ctx: SlashContext, bonked: discord.Member = None, reason: str = N
     await playAudio(audio, connected, notInVc, couldNotConnect, ctx)
     
 @slash.slash(name="uwu-ify", description="turn a message into UwU speak", \
-    guild_ids=config["GUILD_IDS"], options=[create_option("message", "The message you want to UwU-ify", 3, True)])
+    options=[create_option("message", "The message you want to UwU-ify", 3, True)])
 async def uwuify(ctx: SlashContext, message: str):
     EYES = "[ou]{2}"
     MOUTH = "w"
@@ -188,7 +187,7 @@ async def uwuify(ctx: SlashContext, message: str):
     
     await ctx.send(message)
 
-@slash.slash(name= "boop", description= "boop a snoot", guild_ids=config["GUILD_IDS"], \
+@slash.slash(name= "boop", description= "boop a snoot", \
     options=[create_option("booped", "Whoever you want to boop", 6, False), create_option("reason", "Why are you booping?", 3, False)])
 async def boop(ctx: SlashContext, booped: discord.Member = None, reason: str = None):
     response = random.choice(ATTR_FORMS["boops"]["responses"])
@@ -203,7 +202,7 @@ async def boop(ctx: SlashContext, booped: discord.Member = None, reason: str = N
     await ctx.send(response)
 
 @slash.slash(name="stats", description = "See the stats for all of the given items in the server",\
-    guild_ids= config["GUILD_IDS"], options = [create_option("attribute", "The attribute you want to see stats of", 3, True, statChoices),\
+    options = [create_option("attribute", "The attribute you want to see stats of", 3, True, statChoices),\
     create_option("user", "The member you want to see stats of", 6, False)])
 async def boopStats(ctx: SlashContext, attribute: str, user: discord.Member = None):
 
@@ -250,7 +249,7 @@ async def boopStats(ctx: SlashContext, attribute: str, user: discord.Member = No
     await ctx.send(embed=discord.Embed.from_dict(respEmbed))
 
 @slash.slash(name = "facePalm", description = "show your dissapointment with a facepalm",\
-    guild_ids = config["GUILD_IDS"], options = [create_option("reason", "Why are you facepalming?", 3, False)])
+    options = [create_option("reason", "Why are you facepalming?", 3, False)])
 async def facePalm(ctx: SlashContext, reason: str = None):
     values = await ensureUsersAreAvailable(ctx.guild_id, [ctx.author_id])
     values[str(ctx.author_id)].facePalms += 1
