@@ -1,0 +1,49 @@
+{
+    "bonks": {
+        "past": "bonked",
+        "singular": "bonk",
+        "plural": "bonks",
+        "end message": "Everyone else is Bonk-free!\n...for now",
+        "display": "bonks",
+        "responses": [
+            "<:bonk:836647369243361340>",
+            "<:bonk:797218814264606730>",
+            "<a:soulbonk:753016100589142196>",
+            "<a:bonkaugust:762810250528161812>",
+            "<:bonk2:868925782901264466>",
+            "<a:yoshiBonk:868932287797035018>"
+        ]
+    },
+    "boops": {
+        "past": "booped",
+        "singular": "boop",
+        "plural": "boops",
+        "end message": "Everyone else has not recieved a boop yet :c",
+        "display": "boops",
+        "responses": [
+            "<:boopredpanda:721172950593699880>",
+            "<a:foxboop:832761631595298929>",
+            "<a:frankBoop:864634480883138583>",
+            "<a:OriBoop:865293345970716682>"
+        ]
+    },
+    "facePalms": {
+        "past": "face-palmed",
+        "singular": "face-palm",
+        "plural": "face-palms",
+        "end message": "Nobody else has found anything here facepalm-worthy",
+        "display": "face palms",
+        "responses": [
+            "https://tenor.com/view/war-dogs-war-dogs-movie-stressed-facepalm-jesus-help-me-gif-16017210",
+            "https://tenor.com/view/man-ray-facepalm-spongebob-spongebob-facepalm-manray-facepalm-gif-18701906",
+            "https://tenor.com/view/disappointed-picard-face-palm-enterprise-star-trek-gif-15057652",
+            "https://tenor.com/view/facepalm-really-stressed-mad-angry-gif-16109475",
+            "https://tenor.com/view/why-me-facepalm-stressed-star-trek-gif-14598957",
+            "https://tenor.com/view/face-palm-no-nope-cant-frustrated-gif-8484257",
+            "https://tenor.com/view/facepalm-kermit-gif-13779445",
+            "https://tenor.com/view/kopfsch%C3%BCtteln-an-kopf-fassen-oh-no-facepalm-gif-14989627",
+            "https://tenor.com/view/disappointed-face-palm-seriously-exasperated-gif-7304550",
+            "https://tenor.com/view/facepalm-embarrassed-ohno-stephen-colbert-fa-gif-4384274"
+        ]
+    }
+}
