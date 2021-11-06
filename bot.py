@@ -51,7 +51,7 @@ async def playAudio(audio:list, connected:list, notInVC:list, couldNotConnect:li
         voiceChannel = author.voice.channel
         await ctx.send(content=connected)
         # Create a voice stream
-        audioStream = discord.FFmpegPCMAudio(myAudio, executable=config["ffmpegLoc"])
+        audioStream = discord.FFmpegPCMAudio(myAudio)
         VCs = [vc for vc in bot.voice_clients if vc.channel.id == voiceChannel.id]
         vc = None
         # If the bot is connected, don't try connecting
