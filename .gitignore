@@ -1,5 +1,5 @@
-/serverCounts/*
+/serverCounts/*.json
 /config.json
-/ymca/*
-/bonk/*
+/ymca/*.mp3
+/bonk/*.mp3
 /fix.py
