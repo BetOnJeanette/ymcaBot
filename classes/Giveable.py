@@ -13,7 +13,7 @@ class Giveable:
         self.given = given
         self.recieved = recieved
     
-    async def toJson(self):
+    def toJson(self):
         outObj = {}
 
         compObj = Giveable.getCompObj()
@@ -23,15 +23,15 @@ class Giveable:
         
         return outObj
     
-    async def __str__(self):
-        return await json.dumps(self.toJson())
+    def __str__(self):
+        return json.dumps(self.toJson())
 
-    async def incrementRecieved(self, count: int = 1):
+    def incrementRecieved(self, count: int = 1):
         self.recieved += count
 
-    async def give(self, reciever):
+    def give(self, reciever):
         self.given += 1
-        await reciever.incrementRecieved()
+        reciever.incrementRecieved()
     
     @staticmethod
     def getCompObj():

@@ -9,20 +9,20 @@ class GivableWithTimeout(Giveable):
         self.timeout = timeout
         
     
-    async def toJson(self):
-        myObj = await super().toJson()
+    def toJson(self):
+        myObj = super().toJson()
         if self.timeout > datetime.now(tz = timezone.utc):
             myObj["timeout"] = self.timeout.timestamp()
         return myObj
 
-    async def updateTimeout(self, timeoutDuration: timedelta = timedelta(seconds=30)):
+    def updateTimeout(self, timeoutDuration: timedelta = timedelta(seconds=30)):
         self.timeout = datetime.now(timezone.utc) + timeoutDuration
 
-    async def give(self, reciever):
+    def give(self, reciever):
         if datetime.now(timezone.utc) < self.timeout:
             raise timeOutException(self.timeout)
-        await super().give(reciever)
-        await self.updateTimeout()
+        super().give(reciever)
+        self.updateTimeout()
     
     @classmethod
     def fromJson(cls, obj: dict):

@@ -24,7 +24,7 @@ statChoices = [create_choice(key,ATTR_FORMS[key]["display"]) for key in ATTR_FOR
 #Set logging on the console
 logging.basicConfig(level=logging.INFO)
 
-async def getAudioFiles(folderName):
+def getAudioFiles(folderName):
     # set the folder path
     folderPath = PATH_NAME + "\\" + folderName
     # Return a list of all the files in the directory...
@@ -32,10 +32,10 @@ async def getAudioFiles(folderName):
     #...if they are an mp3 file
     if file[-4:] == ".mp3"]
 
-async def getServerFileName(guildID):
+def getServerFileName(guildID):
     return PATH_NAME + "/serverCounts/" + str(guildID) + ".json"
 
-async def getFileStat(guildFile):
+def getFileStat(guildFile):
     #Get the info from the file
     fileStream = open(str(guildFile), "r")
     values = json.loads(fileStream.read())
@@ -71,8 +71,8 @@ async def playAudio(audio:list, connected:list, notInVC:list, couldNotConnect:li
             await asyncio.sleep(5)
         await vc.disconnect()
 
-async def ensureUsersAreAvailable(guildId: int, ids: list):
-    guildFile = await getServerFileName(guildId)
+def ensureUsersAreAvailable(guildId: int, ids: list):
+    guildFile = getServerFileName(guildId)
     values = {}
     ids[:] = [str(item) for item in ids]
     # If there's not a file in there, make a new dict
@@ -82,7 +82,7 @@ async def ensureUsersAreAvailable(guildId: int, ids: list):
     
     # If there is a file, get the numbers from it
     else:
-        values = await getFileStat(guildFile)
+        values = getFileStat(guildFile)
         
         # If the current id is not in the dict, add it
         for item in ids:
@@ -91,16 +91,16 @@ async def ensureUsersAreAvailable(guildId: int, ids: list):
 
     return values
 
-async def saveFile(values: dict, guildFile: str):
+def saveFile(values: dict, guildFile: str):
     for user in values:
-        values[user] = await values[user].toJson()
+        values[user] = values[user].toJson()
 
     # Update the file
     fileStream = open(guildFile, "w")
     fileStream.write(json.dumps(values))
     fileStream.close()
 
-async def appendCountMessage(count: int, attributeName: str):
+def appendCountMessage(count: int, attributeName: str):
     message = "\nYou have now recieved {} ".format(count)
     if count == 1:
         message += ATTR_FORMS[attributeName]["singular"]
@@ -108,17 +108,17 @@ async def appendCountMessage(count: int, attributeName: str):
         message += ATTR_FORMS[attributeName]["plural"]
     return message
 
-async def giveToOtherUser(giver: discord.Member, reciever: discord.Member, guildId: int, attribute: str):
-    values = await ensureUsersAreAvailable(guildId, [giver.id, reciever.id])
+def giveToOtherUser(giver: discord.Member, reciever: discord.Member, guildId: int, attribute: str):
+    values = ensureUsersAreAvailable(guildId, [giver.id, reciever.id])
     author = values[str(giver.id)]
     recieverVal = values[str(reciever.id)]
 
     # Try having the one person bonk the other
-    await author.givesOtherUser(recieverVal, attribute)
-    countMessage = await appendCountMessage(getattr(recieverVal, attribute).recieved, attribute)
+    author.givesOtherUser(recieverVal, attribute)
+    countMessage = appendCountMessage(getattr(recieverVal, attribute).recieved, attribute)
     
-    guildFile = await getServerFileName(guildId)
-    await saveFile(values, guildFile)
+    guildFile = getServerFileName(guildId)
+    saveFile(values, guildFile)
     return countMessage
     
 # Bot instance-specific details
@@ -137,7 +137,7 @@ async def on_ready():
 async def playYMCA(ctx):
     notInVC = "I mean, this won't be *as* good... uh... \n \
             \U0001F3B6 YYY M C A, it's fun to stay at the YYY M C A-A \U0001F3B6"
-    audio = await getAudioFiles("ymca")
+    audio = getAudioFiles("ymca")
     connected = "Now playing YMCA"
     couldNotConnect = "Cannot connect right now"
     await playAudio(audio, connected, notInVC, couldNotConnect, ctx)
@@ -148,14 +148,14 @@ async def playYMCA(ctx):
     create_option("reason", "Why are you bonking?", 3, False)])
 async def bonk(ctx: SlashContext, bonked: discord.Member = None, reason: str = None):
     connected = random.choice(ATTR_FORMS["bonks"]["responses"])
-    audio = await getAudioFiles("bonk")
+    audio = getAudioFiles("bonk")
     couldNotConnect = random.choice(["Cannot bonk right now", "Not within bonking range", "Bonking bat is in the shop"])
 
     # If someone is bonked, append a mention to the start of the response
     if bonked != None:
         # Try having the one person bonk the other
         try:
-            countMessage = await giveToOtherUser(ctx.author, bonked, ctx.guild_id, "bonks")
+            countMessage = giveToOtherUser(ctx.author, bonked, ctx.guild_id, "bonks")
         except timeOutException as ex:
             await ctx.send(ex.message)
             return
@@ -198,7 +198,7 @@ async def boop(ctx: SlashContext, booped: discord.Member = None, reason: str = N
     response = random.choice(ATTR_FORMS["boops"]["responses"])
     
     if booped != None:
-        countMessage = await giveToOtherUser(ctx.author, booped, ctx.guild_id, "boops")
+        countMessage = giveToOtherUser(ctx.author, booped, ctx.guild_id, "boops")
 
         response = booped.mention + ", " + ctx.author.mention + " booped you! " + response 
         response += countMessage
@@ -216,7 +216,7 @@ async def boopStats(ctx: SlashContext, attribute: str, user: discord.Member = No
         "description": "Currently, nobody has been " + ATTR_FORMS[attribute]["past"]
     }
 
-    guildFile = await getServerFileName(ctx.guild_id)
+    guildFile = getServerFileName(ctx.guild_id)
     
     # If a user was requested, change the default message
     if user != None:
@@ -225,7 +225,7 @@ async def boopStats(ctx: SlashContext, attribute: str, user: discord.Member = No
 
     # If the file doesn't exist, say nobody has been bonked
     if os.path.exists(guildFile):
-        stats = await getFileStat(guildFile)
+        stats = getFileStat(guildFile)
         # If there was no user requested, give the full list
         if user == None:
             # Fetch the guild 
@@ -256,7 +256,7 @@ async def boopStats(ctx: SlashContext, attribute: str, user: discord.Member = No
 @slash.slash(name = "facePalm", description = "show your dissapointment with a facepalm",\
     options = [create_option("reason", "Why are you facepalming?", 3, False)])
 async def facePalm(ctx: SlashContext, reason: str = None):
-    values = await ensureUsersAreAvailable(ctx.guild_id, [ctx.author_id])
+    values = ensureUsersAreAvailable(ctx.guild_id, [ctx.author_id])
     values[str(ctx.author_id)].facePalms += 1
 
     await ctx.send(random.choice(ATTR_FORMS["facePalms"]["responses"]))
@@ -267,7 +267,7 @@ async def facePalm(ctx: SlashContext, reason: str = None):
     secondMessage += "You have facepalmed {} time".format(values[str(ctx.author_id)].facePalms)
     if values[str(ctx.author_id)].facePalms > 1:
         secondMessage += "s"
-    guildFile = await getServerFileName(ctx.guild_id)
-    await saveFile(values, guildFile)
+    guildFile = getServerFileName(ctx.guild_id)
+    saveFile(values, guildFile)
     await ctx.channel.send(secondMessage)
 bot.run(config["BOT_TOKEN"])

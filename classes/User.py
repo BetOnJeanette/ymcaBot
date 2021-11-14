@@ -24,12 +24,12 @@ class User:
             self.facePalms = 0
         
     
-    async def toJson(self):
+    def toJson(self):
         returnedObj = {}
-        bonks = await self.bonks.toJson()
+        bonks = self.bonks.toJson()
         if len(bonks) > 0:
             returnedObj["bonks"] = bonks
-        boops = await self.boops.toJson()
+        boops = self.boops.toJson()
         if len(boops) > 0:
             returnedObj["boops"] = boops
         if self.facePalms > 0:
@@ -40,5 +40,5 @@ class User:
     def isGiveable(att):
         return not att == "facePalms"
 
-    async def givesOtherUser(self, reciever, attribute):
-        await getattr(self, attribute).give(getattr(reciever, attribute))
+    def givesOtherUser(self, reciever, attribute):
+        getattr(self, attribute).give(getattr(reciever, attribute))
