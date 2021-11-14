@@ -3,3 +3,4 @@
 /ymca/*.mp3
 /bonk/*.mp3
 /fix.py
+*/__pycache__/*
