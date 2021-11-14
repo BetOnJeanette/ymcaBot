@@ -25,7 +25,12 @@ statChoices = [create_choice(key,ATTR_FORMS[key]["display"]) for key in ATTR_FOR
 logging.basicConfig(level=logging.INFO)
 
 async def getAudioFiles(folderName):
-    return [PATH_NAME + "\\" + folderName + "\\" + file for file in os.listdir(PATH_NAME + "\\" + folderName)]
+    # set the folder path
+    folderPath = PATH_NAME + "\\" + folderName
+    # Return a list of all the files in the directory...
+    return [folderName + "\\" + file for file in os.listdir(folderPath)
+    #...if they are an mp3 file
+    if file[-4:] == ".mp3"]
 
 async def getServerFileName(guildID):
     return PATH_NAME + "/serverCounts/" + str(guildID) + ".json"
