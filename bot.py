@@ -168,7 +168,7 @@ async def bonk(ctx: SlashContext, bonked: discord.Member = None, reason: str = N
 
     if reason != None:
         connected = connected + "\n\nThe bonk was because \"" + reason + "\""
-        notInVc = connected + "\n\nThe bonk was because \"" + reason + "\"" 
+        notInVc = connected
     await playAudio(audio, connected, notInVc, couldNotConnect, ctx)
     
 @slash.slash(name="uwu-ify", description="turn a message into UwU speak", \
