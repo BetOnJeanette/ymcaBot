@@ -5,25 +5,26 @@ import json
 class User:
     # Use an object to initialize them
     def __init__(self, obj: dict = None):
+        self.bonks = GivableWithTimeout()
+        self.boops = Giveable()
+        self.facePalms = 0
         if obj != None:
-            if "bonks" in obj:
-                self.bonks = GivableWithTimeout.fromJson(obj["bonks"])
-            else:
-                self.bonks = GivableWithTimeout()
-            if "boops" in obj:
-                self.boops = Giveable.fromJson(obj["boops"])
-            else:
-                self.boops = Giveable()
-            if "face palms" in obj:
-                self.facePalms = obj["face palms"]
-            else:
-                self.facePalms = 0
-        else:
-            self.bonks = GivableWithTimeout()
-            self.boops = Giveable()
-            self.facePalms = 0
-        
-    
+            for item in ["bonks", "boops", "face palms"]:
+                if item in obj:
+                    # Convert from the obj formating to the class formating
+                    selfItem = item.split(" ")
+                    for i in range(1, len(selfItem)):
+                        selfItem[i] = selfItem[i].title()
+                    selfItem = "".join(selfItem)
+
+                    # Set the item to the listed item
+                    # If it isn't a givable, just set it
+                    if isinstance(self.__getattribute__(selfItem), int):
+                        self.__setattr__(selfItem, obj[item])
+                    # If it is a givable, use fromJson
+                    else:    
+                        self.__setattr__(selfItem, self.__getattribute__(selfItem).__class__.fromJson(obj[item]))
+
     def toJson(self):
         returnedObj = {}
         bonks = self.bonks.toJson()
