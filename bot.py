@@ -209,7 +209,7 @@ async def boop(ctx: SlashContext, booped: discord.Member = None, reason: str = N
 @slash.slash(name="stats", description = "See the stats for all of the given items in the server",\
     options = [create_option("attribute", "The attribute you want to see stats of", 3, True, statChoices),\
     create_option("user", "The member you want to see stats of", 6, False)])
-async def boopStats(ctx: SlashContext, attribute: str, user: discord.Member = None):
+async def stats(ctx: SlashContext, attribute: str, user: discord.Member = None):
 
     respEmbed = {
         "title": ATTR_FORMS[attribute]["singular"].title() + " stats",
